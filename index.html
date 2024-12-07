@@ -34,6 +34,111 @@
   </head>
 
   <body>
-    <h1>Hello, World!</h1>
+    <main class="main">
+      <img
+        src="/src/assets/images/logo.svg"
+        alt="splitter"
+        width="86"
+        height="54"
+        class="logo"
+      />
+
+      <div class="outer-wrapper">
+        <form action="" class="form">
+          <div class="label-input-wrapper">
+            <div class="label-error-wrapper">
+              <label for="bill" class="label">Bill</label>
+              <span aria-live="polite" id="error-bill" class="error-message">
+                Must be a number
+              </span>
+            </div>
+            <input type="number" name="bill" id="bill" class="number-input" />
+          </div>
+
+          <fieldset class="fieldset">
+            <legend>Select Tip %</legend>
+            <div class="radio-buttons-grid">
+              <div>
+                <input
+                  type="radio"
+                  id="rb-1"
+                  name="tip"
+                  class="radio-button visually-hidden"
+                />
+                <label for="rb-1" class="radio-label">5%</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="rb-2"
+                  name="tip"
+                  class="radio-button visually-hidden"
+                />
+                <label for="rb-2" class="radio-label">10%</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="rb-3"
+                  name="tip"
+                  class="radio-button visually-hidden"
+                />
+                <label for="rb-3" class="radio-label">15%</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="rb-4"
+                  name="tip"
+                  class="radio-button visually-hidden"
+                />
+                <label for="rb-4" class="radio-label">25%</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="rb-5"
+                  name="tip"
+                  class="radio-button visually-hidden"
+                />
+                <label for="rb-5" class="radio-label">50%</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="label-input-wrapper">
+            <div class="label-error-wrapper">
+              <label for="count" class="label">Number of People</label>
+              <span aria-live="polite" id="error-count" class="error-message">
+                Can’t be zero
+              </span>
+            </div>
+            <input type="number" name="count" id="count" class="number-input" />
+          </div>
+        </form>
+
+        <div class="inner-wrapper">
+          <div class="results-wrapper">
+            <div class="result-wrapper">
+              <p class="result-name">
+                <span>Tip Amount</span>
+                <span class="person-text">/ person</span>
+              </p>
+              <p class="result-value">$4.27</p>
+            </div>
+
+            <div class="result-wrapper">
+              <p class="result-name">
+                <span>Total</span>
+                <span class="person-text">/ person</span>
+              </p>
+              <p class="result-value">$32.79</p>
+            </div>
+          </div>
+
+          <button class="reset-button">Reset</button>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
