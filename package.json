@@ -1,0 +1,22 @@
+{
+  "name": "vite-js-template",
+  "author": "Darkstar",
+  "description": "A JavaScript project template using Vite, pre-configured with ESLint, Prettier, and a clean folder structure for fast project setup.",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}
