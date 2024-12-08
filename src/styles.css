@@ -194,6 +194,41 @@ body {
   }
 }
 
+.custom-input {
+  display: block;
+  width: 100%;
+  font-size: var(--fs-600);
+  text-align: end;
+  color: var(--clr-green-900);
+  background-color: var(--clr-green-100);
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1.125rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.custom-input::placeholder {
+  text-align: center;
+}
+
+.custom-radio-button:focus-visible + .custom-input {
+  outline: 0.125rem dotted var(--clr-green-400);
+  outline-offset: 0.3rem;
+}
+
+.custom-radio-button:checked + .custom-input {
+  box-shadow: 0 0 0 0.2rem var(--clr-green-900);
+}
+
+.custom-input:focus-visible {
+  box-shadow: 0 0 0 0.2rem var(--clr-green-900);
+  outline-offset: 0.3rem;
+}
+
 .inner-wrapper {
   display: grid;
   gap: 2rem;

@@ -2,6 +2,9 @@ const formEl = document.getElementById("form")
 const tipPerPersonEl = document.getElementById("tip-per-person")
 const totalPerPersonEl = document.getElementById("total-per-person")
 
+const customRadioButton = document.body.querySelector(".custom-radio-button")
+const customInput = document.getElementById("custom-input")
+
 function calculateTipData(
   billAmount: number,
   tipPercentage: number,
@@ -41,6 +44,19 @@ function handleChange() {
       totalPerPersonEl.innerHTML = totalPerPerson.toFixed(2)
     }
   }
+}
+
+if (customInput) {
+  customInput.addEventListener("focus", () => {
+    if (customRadioButton instanceof HTMLInputElement)
+      customRadioButton.checked = true
+  })
+}
+
+if (customRadioButton) {
+  customRadioButton.addEventListener("change", () => {
+    customInput?.focus()
+  })
 }
 
 formEl?.addEventListener("input", handleChange)
