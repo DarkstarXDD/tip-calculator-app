@@ -44,15 +44,21 @@
       />
 
       <div class="outer-wrapper">
-        <form action="" class="form">
+        <form id="form" class="form">
           <div class="label-input-wrapper">
             <div class="label-error-wrapper">
-              <label for="bill" class="label">Bill</label>
+              <label for="bill-amount" class="label">Bill</label>
               <span aria-live="polite" id="error-bill" class="error-message">
                 Must be a number
               </span>
             </div>
-            <input type="number" name="bill" id="bill" class="number-input" />
+            <input
+              type="number"
+              name="bill-amount"
+              placeholder="0"
+              id="bill-amount"
+              class="number-input"
+            />
           </div>
 
           <fieldset class="fieldset">
@@ -61,8 +67,9 @@
               <div>
                 <input
                   type="radio"
+                  name="tip-percentage"
+                  value="5"
                   id="rb-1"
-                  name="tip"
                   class="radio-button visually-hidden"
                 />
                 <label for="rb-1" class="radio-label">5%</label>
@@ -70,8 +77,9 @@
               <div>
                 <input
                   type="radio"
+                  name="tip-percentage"
+                  value="10"
                   id="rb-2"
-                  name="tip"
                   class="radio-button visually-hidden"
                 />
                 <label for="rb-2" class="radio-label">10%</label>
@@ -79,8 +87,9 @@
               <div>
                 <input
                   type="radio"
+                  name="tip-percentage"
+                  value="15"
                   id="rb-3"
-                  name="tip"
                   class="radio-button visually-hidden"
                 />
                 <label for="rb-3" class="radio-label">15%</label>
@@ -88,8 +97,9 @@
               <div>
                 <input
                   type="radio"
+                  name="tip-percentage"
+                  value="25"
                   id="rb-4"
-                  name="tip"
                   class="radio-button visually-hidden"
                 />
                 <label for="rb-4" class="radio-label">25%</label>
@@ -97,8 +107,9 @@
               <div>
                 <input
                   type="radio"
+                  name="tip-percentage"
+                  value="50"
                   id="rb-5"
-                  name="tip"
                   class="radio-button visually-hidden"
                 />
                 <label for="rb-5" class="radio-label">50%</label>
@@ -108,12 +119,19 @@
 
           <div class="label-input-wrapper">
             <div class="label-error-wrapper">
-              <label for="count" class="label">Number of People</label>
+              <label for="people-count" class="label">Number of People</label>
               <span aria-live="polite" id="error-count" class="error-message">
                 Can’t be zero
               </span>
             </div>
-            <input type="number" name="count" id="count" class="number-input" />
+            <input
+              type="number"
+              name="people-count"
+              placeholder="1"
+              value="1"
+              id="people-count"
+              class="number-input"
+            />
           </div>
         </form>
 
@@ -124,7 +142,7 @@
                 <span>Tip Amount</span>
                 <span class="person-text">/ person</span>
               </p>
-              <p class="result-value">$4.27</p>
+              <p class="result-value">$<span id="tip-per-person">0.00</span></p>
             </div>
 
             <div class="result-wrapper">
@@ -132,7 +150,9 @@
                 <span>Total</span>
                 <span class="person-text">/ person</span>
               </p>
-              <p class="result-value">$32.79</p>
+              <p class="result-value">
+                $<span id="total-per-person">0.00</span>
+              </p>
             </div>
           </div>
 
