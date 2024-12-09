@@ -1,3 +1,5 @@
+import { z } from "zod"
+
 const formEl = document.getElementById("form")
 const billAmountInputEl = document.getElementById("bill-amount")
 const tipPerPersonEl = document.getElementById("tip-per-person")
@@ -28,7 +30,8 @@ function calculateTipData(
 function getFormData(formElement: HTMLFormElement) {
   const formData = new FormData(formElement)
 
-  console.log(Object.fromEntries(formData))
+  const formDataObject = Object.fromEntries(formData)
+  validateFormData(formDataObject)
 
   const billAmount = formData.get("bill-amount")
   let tipPercentage = formData.get("tip-percentage")
@@ -40,6 +43,26 @@ function getFormData(formElement: HTMLFormElement) {
   }
 
   return { billAmount, tipPercentage, peopleCount }
+}
+
+function validateFormData(formDataObject) {
+  const numberErrorMessage = "Must be a number"
+
+  const FormSchema = z.object({
+    "bill-amount": z
+      .number({ invalid_type_error: numberErrorMessage })
+      .nonnegative("Bill cannot be negative"),
+    "tip-percentage": z.number({ invalid_type_error: numberErrorMessage }),
+    "tip-custom": z.number({ invalid_type_error: numberErrorMessage }),
+    "people-count": z
+      .number({ invalid_type_error: numberErrorMessage })
+      .positive("Must be a postive number"),
+  })
+
+  const parseResult = FormSchema.safeParse(formDataObject)
+  if (!parseResult.success) {
+    console.log(parseResult.error.flatten().fieldErrors)
+  }
 }
 
 function resetForm(formElement: HTMLFormElement) {
