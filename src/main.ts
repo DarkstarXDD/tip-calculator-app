@@ -1,4 +1,5 @@
 const formEl = document.getElementById("form")
+const billAmountInputEl = document.getElementById("bill-amount")
 const tipPerPersonEl = document.getElementById("tip-per-person")
 const totalPerPersonEl = document.getElementById("total-per-person")
 
@@ -27,6 +28,8 @@ function calculateTipData(
 function getFormData(formElement: HTMLFormElement) {
   const formData = new FormData(formElement)
 
+  console.log(Object.fromEntries(formData))
+
   const billAmount = formData.get("bill-amount")
   let tipPercentage = formData.get("tip-percentage")
   const tipCustom = formData.get("tip-custom")
@@ -40,17 +43,8 @@ function getFormData(formElement: HTMLFormElement) {
 }
 
 function resetForm(formElement: HTMLFormElement) {
-  const formData = new FormData(formElement)
-
-  formElement.querySelectorAll("input").forEach((element) => {
-    if (formData.has(element.name)) {
-      element.value = ""
-
-      if (element.type === "radio") {
-        element.checked = false
-      }
-    }
-  })
+  billAmountInputEl?.focus()
+  formElement.reset()
   handleChange()
 }
 
