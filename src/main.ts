@@ -5,6 +5,8 @@ const totalPerPersonEl = document.getElementById("total-per-person")
 const customRadioButton = document.body.querySelector(".custom-radio-button")
 const customInput = document.getElementById("custom-input")
 
+const resetButton = document.getElementById("reset-button")
+
 function calculateTipData(
   billAmount: number,
   tipPercentage: number,
@@ -25,8 +27,6 @@ function calculateTipData(
 function getFormData(formElement: HTMLFormElement) {
   const formData = new FormData(formElement)
 
-  console.log(Object.fromEntries(formData))
-
   const billAmount = formData.get("bill-amount")
   let tipPercentage = formData.get("tip-percentage")
   const tipCustom = formData.get("tip-custom")
@@ -37,6 +37,21 @@ function getFormData(formElement: HTMLFormElement) {
   }
 
   return { billAmount, tipPercentage, peopleCount }
+}
+
+function resetForm(formElement: HTMLFormElement) {
+  const formData = new FormData(formElement)
+
+  formElement.querySelectorAll("input").forEach((element) => {
+    if (formData.has(element.name)) {
+      element.value = ""
+
+      if (element.type === "radio") {
+        element.checked = false
+      }
+    }
+  })
+  handleChange()
 }
 
 function handleChange() {
@@ -75,3 +90,8 @@ if (customRadioButton) {
 }
 
 formEl?.addEventListener("input", handleChange)
+resetButton?.addEventListener("click", () => {
+  if (formEl instanceof HTMLFormElement) {
+    resetForm(formEl)
+  }
+})

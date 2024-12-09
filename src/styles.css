@@ -212,6 +212,7 @@ body {
 }
 
 .custom-input::placeholder {
+  font-size: var(--fs-400);
   text-align: center;
 }
 
