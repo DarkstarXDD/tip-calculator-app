@@ -22,13 +22,26 @@ function calculateTipData(
   }
 }
 
+function getFormData(formElement: HTMLFormElement) {
+  const formData = new FormData(formElement)
+
+  console.log(Object.fromEntries(formData))
+
+  const billAmount = formData.get("bill-amount")
+  let tipPercentage = formData.get("tip-percentage")
+  const tipCustom = formData.get("tip-custom")
+  const peopleCount = formData.get("people-count")
+
+  if (tipPercentage === "custom") {
+    tipPercentage = tipCustom
+  }
+
+  return { billAmount, tipPercentage, peopleCount }
+}
+
 function handleChange() {
   if (formEl instanceof HTMLFormElement) {
-    const formData = new FormData(formEl)
-
-    const billAmount = formData.get("bill-amount")
-    const tipPercentage = formData.get("tip-percentage")
-    const peopleCount = formData.get("people-count")
+    const { billAmount, tipPercentage, peopleCount } = getFormData(formEl)
 
     const { tipPerPerson, totalPerPerson } = calculateTipData(
       Number(billAmount),
@@ -48,8 +61,10 @@ function handleChange() {
 
 if (customInput) {
   customInput.addEventListener("focus", () => {
-    if (customRadioButton instanceof HTMLInputElement)
+    if (customRadioButton instanceof HTMLInputElement) {
       customRadioButton.checked = true
+      handleChange()
+    }
   })
 }
 
