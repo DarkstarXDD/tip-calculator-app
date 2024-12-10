@@ -10,6 +10,10 @@ const customInput = document.getElementById("custom-input")
 
 const resetButton = document.getElementById("reset-button")
 
+const billErrorEl = document.getElementById("error-bill")
+const tipErrorEl = document.getElementById("error-tip")
+const poepleCountErrorEl = document.getElementById("error-count")
+
 function calculateTipData(
   billAmount: number,
   tipPercentage: number,
@@ -30,13 +34,18 @@ function calculateTipData(
 function getFormData(formElement: HTMLFormElement) {
   const formData = new FormData(formElement)
 
-  const formDataObject = Object.fromEntries(formData)
-  validateFormData(formDataObject)
+  // console.log(Object.fromEntries(formData))
 
-  const billAmount = formData.get("bill-amount")
-  let tipPercentage = formData.get("tip-percentage")
-  const tipCustom = formData.get("tip-custom")
-  const peopleCount = formData.get("people-count")
+  const formDataObject = Object.fromEntries(formData)
+  const validatedData = validateFormData(formDataObject)
+  // console.log(validatedData)
+
+  const billAmount = validatedData?.["bill-amount"] || 0
+  let tipPercentage = validatedData?.["tip-percentage"] || 0
+  const tipCustom = validatedData?.["tip-custom"] || 0
+  const peopleCount = validatedData?.["people-count"] || 1
+
+  // console.log(tipCustom)
 
   if (tipPercentage === "custom") {
     tipPercentage = tipCustom
@@ -49,19 +58,52 @@ function validateFormData(formDataObject) {
   const numberErrorMessage = "Must be a number"
 
   const FormSchema = z.object({
-    "bill-amount": z
+    "bill-amount": z.coerce
       .number({ invalid_type_error: numberErrorMessage })
-      .nonnegative("Bill cannot be negative"),
-    "tip-percentage": z.number({ invalid_type_error: numberErrorMessage }),
-    "tip-custom": z.number({ invalid_type_error: numberErrorMessage }),
-    "people-count": z
+      .nonnegative("Cannot be negative"),
+
+    "tip-percentage": z.coerce
+      .number({
+        invalid_type_error: numberErrorMessage,
+      })
+      .or(z.enum(["custom"]))
+      .optional(),
+
+    "tip-custom": z.coerce
       .number({ invalid_type_error: numberErrorMessage })
-      .positive("Must be a postive number"),
+      .nonnegative("Can't be negative"),
+
+    "people-count": z.coerce
+      .number({ invalid_type_error: numberErrorMessage })
+      .positive("Can't be zero")
+      .int("Whole numbers only"),
   })
 
   const parseResult = FormSchema.safeParse(formDataObject)
-  if (!parseResult.success) {
-    console.log(parseResult.error.flatten().fieldErrors)
+  // console.log(parseResult.success)
+  if (parseResult.success) {
+    const errorObj = {}
+    handleErrorMessages(errorObj)
+    return parseResult.data
+  } else {
+    const errorObj = parseResult.error.flatten().fieldErrors
+    handleErrorMessages(errorObj)
+  }
+}
+
+function handleErrorMessages(errorObj) {
+  // console.log(errorObj)
+  if (billErrorEl) {
+    billErrorEl.innerHTML = errorObj["bill-amount"]?.[0] || ""
+  }
+  if (tipErrorEl) {
+    tipErrorEl.innerHTML = errorObj["tip-percentage"]?.[0] || ""
+  }
+  if (tipErrorEl) {
+    tipErrorEl.innerHTML = errorObj["tip-custom"]?.[0] || ""
+  }
+  if (poepleCountErrorEl) {
+    poepleCountErrorEl.innerHTML = errorObj["people-count"]?.[0] || ""
   }
 }
 
@@ -112,3 +154,13 @@ resetButton?.addEventListener("click", () => {
     resetForm(formEl)
   }
 })
+
+// const testSchema = z.number({ invalid_type_error: "Need number" }).safeParse(3)
+
+// console.log(testSchema)
+
+// if (!testSchema.success) {
+//   console.log(testSchema.error)
+// } else {
+//   console.log(testSchema.data)
+// }
