@@ -77,7 +77,7 @@ type FormType = z.infer<typeof FormSchema>
 type FormInput = keyof FormType
 type FormErrors = Partial<Record<FormInput, string[]>>
 
-function validateFormData(formDataObject) {
+function validateFormData(formDataObject: unknown) {
   let errorObj: FormErrors
   const parseResult = FormSchema.safeParse(formDataObject)
 
