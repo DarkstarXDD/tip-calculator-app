@@ -1,3 +1,5 @@
+import { z } from "zod"
+
 const formEl = document.getElementById("form")
 const billAmountInputEl = document.getElementById("bill-amount")
 const tipPerPersonEl = document.getElementById("tip-per-person")
@@ -7,6 +9,34 @@ const customRadioButton = document.body.querySelector(".custom-radio-button")
 const customInput = document.getElementById("custom-input")
 
 const resetButton = document.getElementById("reset-button")
+
+const billErrorEl = document.getElementById("error-bill")
+const tipErrorEl = document.getElementById("error-tip")
+const poepleCountErrorEl = document.getElementById("error-count")
+
+const numberErrorMessage = "Must be a number"
+
+const FormSchema = z.object({
+  "bill-amount": z.coerce
+    .number({ invalid_type_error: numberErrorMessage })
+    .nonnegative("Can't be negative"),
+
+  "tip-percentage": z.coerce
+    .number({
+      invalid_type_error: numberErrorMessage,
+    })
+    .or(z.enum(["custom"]))
+    .optional(),
+
+  "tip-custom": z.coerce
+    .number({ invalid_type_error: numberErrorMessage })
+    .nonnegative("Can't be negative"),
+
+  "people-count": z.coerce
+    .number({ invalid_type_error: numberErrorMessage })
+    .positive("Can't be zero")
+    .int("Whole numbers only"),
+})
 
 function calculateTipData(
   billAmount: number,
@@ -28,18 +58,52 @@ function calculateTipData(
 function getFormData(formElement: HTMLFormElement) {
   const formData = new FormData(formElement)
 
-  console.log(Object.fromEntries(formData))
+  const formDataObject = Object.fromEntries(formData)
+  const validatedData = validateFormData(formDataObject)
 
-  const billAmount = formData.get("bill-amount")
-  let tipPercentage = formData.get("tip-percentage")
-  const tipCustom = formData.get("tip-custom")
-  const peopleCount = formData.get("people-count")
+  const billAmount = validatedData?.["bill-amount"] || 0
+  let tipPercentage = validatedData?.["tip-percentage"] || 0
+  const tipCustom = validatedData?.["tip-custom"] || 0
+  const peopleCount = validatedData?.["people-count"] || 1
 
   if (tipPercentage === "custom") {
     tipPercentage = tipCustom
   }
 
   return { billAmount, tipPercentage, peopleCount }
+}
+
+type FormType = z.infer<typeof FormSchema>
+type FormInput = keyof FormType
+type FormErrors = Partial<Record<FormInput, string[]>>
+
+function validateFormData(formDataObject: unknown) {
+  let errorObj: FormErrors
+  const parseResult = FormSchema.safeParse(formDataObject)
+
+  if (parseResult.success) {
+    errorObj = {}
+    handleErrorMessages(errorObj)
+    return parseResult.data
+  } else {
+    errorObj = parseResult.error.flatten().fieldErrors
+    handleErrorMessages(errorObj)
+  }
+}
+
+function handleErrorMessages(errorObj: FormErrors) {
+  if (billErrorEl) {
+    billErrorEl.innerHTML = errorObj["bill-amount"]?.[0] || ""
+  }
+  if (tipErrorEl) {
+    tipErrorEl.innerHTML = errorObj["tip-percentage"]?.[0] || ""
+  }
+  if (tipErrorEl) {
+    tipErrorEl.innerHTML = errorObj["tip-custom"]?.[0] || ""
+  }
+  if (poepleCountErrorEl) {
+    poepleCountErrorEl.innerHTML = errorObj["people-count"]?.[0] || ""
+  }
 }
 
 function resetForm(formElement: HTMLFormElement) {

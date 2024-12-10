@@ -48,9 +48,11 @@
           <div class="label-input-wrapper">
             <div class="label-error-wrapper">
               <label for="bill-amount" class="label">Bill</label>
-              <span aria-live="polite" id="error-bill" class="error-message">
-                Must be a number
-              </span>
+              <span
+                aria-live="polite"
+                id="error-bill"
+                class="error-message"
+              ></span>
             </div>
             <input
               type="number"
@@ -63,7 +65,14 @@
           </div>
 
           <fieldset class="fieldset">
-            <legend>Select Tip %</legend>
+            <div class="label-error-wrapper">
+              <legend>Select Tip %</legend>
+              <span
+                aria-live="polite"
+                id="error-tip"
+                class="error-message"
+              ></span>
+            </div>
             <div class="radio-buttons-grid">
               <div>
                 <input
@@ -139,9 +148,11 @@
           <div class="label-input-wrapper">
             <div class="label-error-wrapper">
               <label for="people-count" class="label">Number of People</label>
-              <span aria-live="polite" id="error-count" class="error-message">
-                Can’t be zero
-              </span>
+              <span
+                aria-live="polite"
+                id="error-count"
+                class="error-message"
+              ></span>
             </div>
             <input
               type="number"
