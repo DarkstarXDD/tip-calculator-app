@@ -207,9 +207,7 @@
                 <span>Tip Amount</span>
                 <span class="person-text">/ person</span>
               </p>
-              <p aria-live="polite" class="result-value">
-                $<span id="tip-per-person">0.00</span>
-              </p>
+              <p class="result-value">$<span id="tip-per-person">0.00</span></p>
             </div>
 
             <div class="result-wrapper">
@@ -217,11 +215,13 @@
                 <span>Total</span>
                 <span class="person-text">/ person</span>
               </p>
-              <p aria-live="polite" class="result-value">
+              <p class="result-value">
                 $<span id="total-per-person">0.00</span>
               </p>
             </div>
           </div>
+
+          <p aria-live="polite" id="result-text" class="visually-hidden"></p>
 
           <button id="reset-button" class="reset-button">Reset</button>
         </div>

@@ -4,6 +4,7 @@ const formEl = document.getElementById("form")
 const billAmountInputEl = document.getElementById("bill-amount")
 const tipPerPersonEl = document.getElementById("tip-per-person")
 const totalPerPersonEl = document.getElementById("total-per-person")
+const resultTextEl = document.getElementById("result-text")
 
 const customRadioButton = document.body.querySelector(".custom-radio-button")
 const customInput = document.getElementById("custom-input")
@@ -112,6 +113,12 @@ function resetForm(formElement: HTMLFormElement) {
   handleChange()
 }
 
+let timeOutId: number
+function debounce(func: () => void) {
+  clearInterval(timeOutId)
+  timeOutId = setTimeout(func, 5000)
+}
+
 function handleChange() {
   if (formEl instanceof HTMLFormElement) {
     const { billAmount, tipPercentage, peopleCount } = getFormData(formEl)
@@ -129,6 +136,13 @@ function handleChange() {
     if (totalPerPersonEl) {
       totalPerPersonEl.innerHTML = totalPerPerson.toFixed(2)
     }
+
+    debounce(() => {
+      if (!resultTextEl) return
+      const message = `Tip amount per person is ${tipPerPerson.toFixed(2)}. Total per person is ${totalPerPerson.toFixed(2)}.`
+      resultTextEl.innerHTML = ""
+      resultTextEl.innerHTML = message
+    })
   }
 }
 
