@@ -39,23 +39,6 @@ const FormSchema = z.object({
     .int("Whole numbers only"),
 })
 
-function calculateTipData(
-  billAmount: number,
-  tipPercentage: number,
-  peopleCount: number
-) {
-  const tip = billAmount * (tipPercentage / 100)
-  const tipPerPerson = tip / peopleCount
-
-  const totalBillWithTip = billAmount + tip
-  const totalPerPerson = totalBillWithTip / peopleCount
-
-  return {
-    tipPerPerson,
-    totalPerPerson,
-  }
-}
-
 function getFormData(formElement: HTMLFormElement) {
   const formData = new FormData(formElement)
 
@@ -89,6 +72,23 @@ function validateFormData(formDataObject: unknown) {
   } else {
     errorObj = parseResult.error.flatten().fieldErrors
     handleErrorMessages(errorObj)
+  }
+}
+
+function calculateTipData(
+  billAmount: number,
+  tipPercentage: number,
+  peopleCount: number
+) {
+  const tip = billAmount * (tipPercentage / 100)
+  const tipPerPerson = tip / peopleCount
+
+  const totalBillWithTip = billAmount + tip
+  const totalPerPerson = totalBillWithTip / peopleCount
+
+  return {
+    tipPerPerson,
+    totalPerPerson,
   }
 }
 
